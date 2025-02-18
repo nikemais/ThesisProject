@@ -1,0 +1,26 @@
+[
+{
+  "directory": "C:/Users/nike/Documents/ThesisProject/cpp_scratchpad/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/scratchpad.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\scratchpad.dir\\src\\main.cpp.obj -c C:\\Users\\nike\\Documents\\ThesisProject\\cpp_scratchpad\\src\\main.cpp",
+  "file": "C:/Users/nike/Documents/ThesisProject/cpp_scratchpad/src/main.cpp",
+  "output": "CMakeFiles/scratchpad.dir/src/main.cpp.obj"
+},
+{
+  "directory": "C:/Users/nike/Documents/ThesisProject/cpp_scratchpad/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/scratchpad.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\scratchpad.dir\\src\\shadow_calculator.cpp.obj -c C:\\Users\\nike\\Documents\\ThesisProject\\cpp_scratchpad\\src\\shadow_calculator.cpp",
+  "file": "C:/Users/nike/Documents/ThesisProject/cpp_scratchpad/src/shadow_calculator.cpp",
+  "output": "CMakeFiles/scratchpad.dir/src/shadow_calculator.cpp.obj"
+},
+{
+  "directory": "C:/Users/nike/Documents/ThesisProject/cpp_scratchpad/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/scratchpad.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\scratchpad.dir\\src\\utils.cpp.obj -c C:\\Users\\nike\\Documents\\ThesisProject\\cpp_scratchpad\\src\\utils.cpp",
+  "file": "C:/Users/nike/Documents/ThesisProject/cpp_scratchpad/src/utils.cpp",
+  "output": "CMakeFiles/scratchpad.dir/src/utils.cpp.obj"
+},
+{
+  "directory": "C:/Users/nike/Documents/ThesisProject/cpp_scratchpad/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/scratchpad.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\scratchpad.dir\\src\\geometry.cpp.obj -c C:\\Users\\nike\\Documents\\ThesisProject\\cpp_scratchpad\\src\\geometry.cpp",
+  "file": "C:/Users/nike/Documents/ThesisProject/cpp_scratchpad/src/geometry.cpp",
+  "output": "CMakeFiles/scratchpad.dir/src/geometry.cpp.obj"
+}
+]

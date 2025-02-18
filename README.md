@@ -1,2 +1,3 @@
 # ThesisProject
-MSc's Thesis project code (implementation of non-conservative force modelling)
+MSc Thesis project repository to support the implementation
+of non-conservative force modelling on Mars orbiters.
