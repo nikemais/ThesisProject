@@ -1,26 +1,13 @@
-function save_txt_int(filename, array)
-    % SAVE_TXT_INT Saves an integer array to a text file
-    %   save_txt_int(filename, array) saves the given integer array to the specified filename.
-    
-    % Open the file for writing
-    fid = fopen(filename, 'w');
-    
-    % Check if the file opened successfully
-    if fid == -1
-        error('Could not open file for writing.');
+function save_txt_int(filename,A)
+% save_txt_int(filename,A)
+
+fid = fopen(filename,'w');
+fprintf(fid,'%% %d %d\n',size(A,1),size(A,2));
+for m = 1:size(A,1)
+    for n = 1:size(A,2)
+        fprintf(fid,'%24d  ',A(m,n));
     end
-    
-    % Determine the number of columns
-    [~, cols] = size(array);
-    
-    % Format string for writing rows (integer format)
-    formatSpec = [repmat('%d ', 1, cols-1), '%d\n']; 
-    
-    % Write the array to the file
-    fprintf(fid, formatSpec, array');
-    
-    % Close the file
-    fclose(fid);
-    
-    disp(['Integer array saved to ', filename]);
+    fprintf(fid,'\n');
 end
+fclose(fid);
+    

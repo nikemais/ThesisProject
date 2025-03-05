@@ -4,8 +4,8 @@ clc
 
 
 
-pth = 'C:/Users/nike/Documents/ThesisProject/ray_tracing/input/';
-fn = 'MRO_highfidelity';
+pth = 'C:/Users/nike/Documents/ThesisProject/ray_tracing/MRO_lowfidelity/';
+fn = 'MRO_lowfidelity';
 M = read_collada_file([pth fn '.dae']);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -111,32 +111,32 @@ M.materials(3).optical_absorption           = 0.14;
 M.materials(3).optical_diffuse_reflection   = 0.80; % my own guess
 M.materials(3).optical_specular_reflection  = 0.06; % my own guess
 M.materials(3).infrared_absorption          = 0.90;
-M.materials(3).infrared_diffuse_reflection  = 0.10; % my own guess
-M.materials(3).infrared_specular_reflection = 0.00; % my own guess
+M.materials(3).infrared_diffuse_reflection  = 0.05; % my own guess
+M.materials(3).infrared_specular_reflection = 0.05; % my own guess
 
 % 4: SBandAntenna: white paint, silicate --> from Space Systems Engineering book
 M.materials(4).optical_absorption           = 0.14;
 M.materials(4).optical_diffuse_reflection   = 0.80; % my own guess
 M.materials(4).optical_specular_reflection  = 0.06; % my own guess
 M.materials(4).infrared_absorption          = 0.90;
-M.materials(4).infrared_diffuse_reflection  = 0.10; % my own guess
-M.materials(4).infrared_specular_reflection = 0.00; % my own guess
+M.materials(4).infrared_diffuse_reflection  = 0.05; % my own guess
+M.materials(4).infrared_specular_reflection = 0.05; % my own guess
 
 % 5: CESSWhite: white paint, silicate --> from Space Systems Engineering book
 M.materials(5).optical_absorption           = 0.14;
 M.materials(5).optical_diffuse_reflection   = 0.80; % my own guess
 M.materials(5).optical_specular_reflection  = 0.06; % my own guess
 M.materials(5).infrared_absorption          = 0.90;
-M.materials(5).infrared_diffuse_reflection  = 0.10; % my own guess
-M.materials(5).infrared_specular_reflection = 0.00; % my own guess
+M.materials(5).infrared_diffuse_reflection  = 0.05; % my own guess
+M.materials(5).infrared_specular_reflection = 0.05; % my own guess
 
 % 6: CESSBlack: black paint, polyurethane --> from Space Systems Engineering book
-M.materials(6).optical_absorption           = 0.95;
+M.materials(6).optical_absorption           = 0.90;
 M.materials(6).optical_diffuse_reflection   = 0.05; % my own guess
-M.materials(6).optical_specular_reflection  = 0.00; % my own guess
-M.materials(6).infrared_absorption          = 0.85;
-M.materials(6).infrared_diffuse_reflection  = 0.15; % my own guess
-M.materials(6).infrared_specular_reflection = 0.00; % my own guess
+M.materials(6).optical_specular_reflection  = 0.05; % my own guess
+M.materials(6).infrared_absorption          = 0.90;
+M.materials(6).infrared_diffuse_reflection  = 0.05; % my own guess
+M.materials(6).infrared_specular_reflection = 0.05; % my own guess
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -199,6 +199,9 @@ for k = 1:size(v0,1)
 end
 hold off
 axis equal
+xlabel('x')
+ylabel('y')
+zlabel('z')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
