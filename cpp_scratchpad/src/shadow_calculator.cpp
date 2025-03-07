@@ -420,15 +420,15 @@ std::vector<double> rp_coefficients(const Part& part, const Eigen::Matrix3d& R,
             double ca_op = part_rotated.surfaces[i].surface_properties.optical[0];
             double cd_op = part_rotated.surfaces[i].surface_properties.optical[1];
             double cs_op = part_rotated.surfaces[i].surface_properties.optical[2];
-            double ca_ir = part_rotated.surfaces[i].surface_properties.optical[0];
-            double cd_ir = part_rotated.surfaces[i].surface_properties.optical[1];
-            double cs_ir = part_rotated.surfaces[i].surface_properties.optical[2];
+            double ca_ir = part_rotated.surfaces[i].surface_properties.infrared[0];
+            double cd_ir = part_rotated.surfaces[i].surface_properties.infrared[1];
+            double cs_ir = part_rotated.surfaces[i].surface_properties.infrared[2];
             Eigen::Vector3d n = part_rotated.surfaces[i].normal;
             
             double cos_theta_i = r.dot(n);
             Eigen::Vector3d dummy = -r+(2.0/3.0)*n;
 
-            double reduced_area = fraction[i]*part.surfaces[i].area;
+            double reduced_area = fraction[i]*part_rotated.surfaces[i].area*cos_theta_i;
             // instant remission
             // C_op += -reduced_area*((ca_op + cd_op)*dummy+2*cos_theta_i*cs_op*n);
             // C_ir += -reduced_area*((ca_ir + cd_ir)*dummy+2*cos_theta_i*cs_ir*n);
@@ -442,5 +442,27 @@ std::vector<double> rp_coefficients(const Part& part, const Eigen::Matrix3d& R,
         return {C_op(0), C_op(1), C_op(2), C_ir(0), C_ir(1), C_ir(2)};
 };
 
+std::vector<double> rp_coefficients_surface(const surface& surf, const double& fraction, const Eigen::Vector3d& v) {
+
+    double ca_op = surf.surface_properties.optical[0];
+    double cd_op = surf.surface_properties.optical[1];
+    double cs_op = surf.surface_properties.optical[2];
+    double ca_ir = surf.surface_properties.infrared[0];
+    double cd_ir = surf.surface_properties.infrared[1];
+    double cs_ir = surf.surface_properties.infrared[2];
+    Eigen::Vector3d n = surf.normal;
+            
+    double cos_theta_i = v.dot(n);
+    // Eigen::Vector3d dummy = -r+(2.0/3.0)*n;
+
+    double reduced_area = fraction*surf.area*std::max(cos_theta_i, 0.0);
+    // instant remission
+    // C_op += -reduced_area*((ca_op + cd_op)*dummy+2*cos_theta_i*cs_op*n);
+    // C_ir += -reduced_area*((ca_ir + cd_ir)*dummy+2*cos_theta_i*cs_ir*n);
+    // no remission
+    Eigen::Vector3d C_op = -reduced_area*(-v*(ca_op + cd_op) + (2.0/3.0)*n*cd_op + 2*cos_theta_i*cs_op*n);
+    Eigen::Vector3d C_ir = -reduced_area*(-v*(ca_ir + cd_ir) + (2.0/3.0)*n*cd_op + 2*cos_theta_i*cs_ir*n);
+    return {C_op(0), C_op(1), C_op(2), C_ir(0), C_ir(1), C_ir(2)};
+};
 
 

@@ -40,4 +40,6 @@ std::vector<double> pixelation(const std::vector<std::vector<int>>& sigma, const
     const std::vector<std::vector<projection>>& projections, const std::vector<int>& indexes);
 std::vector<double> rp_coefficients(const Part& part, const Eigen::Matrix3d& R, const std::vector<double>& fraction, const Eigen::Vector3d& v);
 
+std::vector<double> rp_coefficients_surface(const surface& surf, const double& fraction, const Eigen::Vector3d& v);
+
 #endif

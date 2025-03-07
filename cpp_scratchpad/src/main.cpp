@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <iostream>
 #include <vector>
 #include "utils.h"
@@ -9,21 +11,35 @@
 #include <thread>
 #include <algorithm>
 
+
 using namespace std;
 
 int main(){
     string data_path = "../data/MRO_lowfidelity_";
 
     Part MRO(data_path);
+    int q_max = 100;
+
     // MRO.print_info();
     // MRO.print_suface_data(1);
+    Eigen::Vector3d v_test(0.0, 1.0, 0.0);
+    Eigen::Matrix3d R_unity(3, 3);
+    R_unity(0,0) = 1.0;
+    R_unity(0,1) = 0.0;
+    R_unity(0,2) = 0.0;
 
+    R_unity(1,0) = 0.0;
+    R_unity(1,1) = 1.0;
+    R_unity(1,2) = 0.0;
+
+    R_unity(2,0) = 0.0;
+    R_unity(2,1) = 0.0;
+    R_unity(2,2) = 1.0;
+    
+    
     Eigen::Vector3d v(-1.0, 0.0, 0.0);
-    int q_max = 100;
-    // Eigen::Matrix3d R;
-    // R(0, 0) = 1.0; R(0, 1) = 0.0; R(0, 2) = 0.0; 
-    // R(1, 0) = 0.0; R(1, 1) = 1.0; R(1, 2) = 0.0; 
-    // R(2, 0) = 0.0; R(2, 1) = 0.0; R(2, 2) = 1.0; 
+
+    
 
     // Part MRO_rotated(MRO, R);
     // MRO_rotated.print_info();
@@ -61,26 +77,26 @@ int main(){
     /*
     VERIFICATION
     */
-    double pi = acos(-1.0);
+    double pi = M_PI;
     // vector<double> alpha_angles = {-pi/2, 0, pi/2};
     vector<double> alpha_angles;
     double val1 = -pi/2;
     while (val1<= pi/2) {
         alpha_angles.push_back(val1);
-        val1 += pi/72; 
+        val1 += pi/36; 
     }
     // vector<double> beta_angles = {-pi, -pi/2, 0, pi/2, pi};
     vector<double> beta_angles;
     double val2 = -pi;
     while (val2<= pi) {
         beta_angles.push_back(val2);
-        val2 += pi/72; 
+        val2 += pi/36; 
     }
-
+    
     cout<<"size alpha: "<<alpha_angles.size()<<endl;
     cout<<"size beta: "<<beta_angles.size()<<endl;
     cout<<"total: "<<beta_angles.size()*alpha_angles.size()<<endl;
-    vector<Eigen::Matrix3d> Rs(alpha_angles.size()*beta_angles.size());
+    vector<Eigen::Matrix3d> Rs(alpha_angles.size()*beta_angles.size(), Eigen::Matrix3d(3, 3));
     vector<vector<double>> angles(alpha_angles.size()*beta_angles.size(), vector<double>(2));
     for (int i = 0; i<alpha_angles.size(); i++) {
         for (int j = 0; j<beta_angles.size(); j++) {
@@ -88,7 +104,84 @@ int main(){
             Rs[i*beta_angles.size()+j] = R_body_wind(alpha_angles[i], beta_angles[j]);
         }
     }
-    save_data(angles, "../output/lowfidelity/a_v3.txt");
+    save_data(angles, "../output/a_2.txt");
+    // cout<<"angles"<<endl;
+    // cout<<angles[5292][0]<<"  "<<angles[5292][1]<<endl;
+    // cout<<"rs[5292]"<<endl;
+    // cout<<Rs[5292]<<endl;
+    // cout<<"R(angles[5292])"<<endl;
+    // cout<<R_body_wind(angles[5292][0], angles[5292][1])<<endl;
+    // Eigen::Matrix3d R_buggata = R_body_wind(1e-30, 1e-30);
+    // // R_buggata(0, 0) = 1.0;
+    // // R_buggata(1, 1) = 1.0;
+    // // R_buggata(2, 2) = 1.0;
+    // R_buggata(0, 1) = 0.0;
+    // cout<<"R_buggata"<<endl;
+    // cout<<R_buggata<<endl;
+    // vector<double> f_test_bug = compute_shadow(MRO, R_buggata, v_test, q_max, false);
+    // vector<double> coeff_bug = rp_coefficients(MRO, R_buggata, f_test_bug, v_test);
+    // cout<<"R_buggata"<<endl;
+    // cout<<coeff_bug[0]<<endl;
+    // cout<<coeff_bug[1]<<endl;
+    // cout<<coeff_bug[2]<<endl;
+    // vector<double> f_test = compute_shadow(MRO, Rs[5292], v_test, q_max, false);
+    // vector<double> coeff = rp_coefficients(MRO, Rs[5292], f_test, v_test);
+    // cout<<"Rs rotation coeffs"<<endl;
+    // cout<<coeff[0]<<endl;
+    // cout<<coeff[1]<<endl;
+    // cout<<coeff[2]<<endl;
+    // vector<double> f_test_unity = compute_shadow(MRO, R_unity, v_test, q_max, false);
+    // vector<double> coeff_unity = rp_coefficients(MRO, R_unity, f_test_unity, v_test);
+    // cout<<"unity rotation coeffs"<<endl;
+    // cout<<coeff_unity[0]<<endl;
+    // cout<<coeff_unity[1]<<endl;
+    // cout<<coeff_unity[2]<<endl;
+    // cout<<"unity rotation: "<<endl;
+    // cout<<R_unity*v_test<<endl;
+    // cout<<"bugged rotation: "<<endl;
+    // cout<<R_buggata*v_test<<endl;
+
+
+    // Part MRO_rotated(MRO, Rs[5293]);
+    // cout<<"FRACTIONS"<<endl;
+    // cout<<f_test_unity.size()<<"  "<<f_test.size()<<endl;
+    // for (int i = 0; i<f_test_unity.size(); i++) {
+    //     cout<<i<<" unity f: "<<f_test_unity[i]<<" rs f: "<<f_test[i]<<
+    //     " Cx unity: "<<rp_coefficients_surface(MRO.surfaces[i], f_test_unity[i], v_test)[0]<<
+    //     " Cx rs: "<<rp_coefficients_surface(MRO_rotated.surfaces[i], f_test[i], v_test)[0]<<endl;
+    // }
+    // surface surf = MRO_rotated.surfaces[6];
+    // double ca_op = surf.surface_properties.optical[0];
+    // double cd_op = surf.surface_properties.optical[1];
+    // double cs_op = surf.surface_properties.optical[2];
+    // double ca_ir = surf.surface_properties.infrared[0];
+    // double cd_ir = surf.surface_properties.infrared[1];
+    // double cs_ir = surf.surface_properties.infrared[2];
+    // Eigen::Vector3d n = surf.normal;
+            
+    // double cos_theta_i = v_test.dot(n);
+    // cout<<"cos theta: "<<cos_theta_i<<endl;
+    // // Eigen::Vector3d dummy = -r+(2.0/3.0)*n;
+
+    // double reduced_area = f_test[6]*surf.area;
+    // cout<<"reduced area: "<<reduced_area<<endl;
+    // cout<<(-v_test*(ca_op + cd_op))[0]<<endl;
+    // cout<<((2.0/3.0)*cd_op*n)[0]<<endl;
+    // cout<<(2*cos_theta_i*cs_op*n)[0]<<endl;
+    // cout<<"normal x: "<<n[0]<<endl;
+    // cout<<"normal y: "<<n[1]<<endl;
+    // cout<<"normal z: "<<n[2]<<endl;
+    // cout<<"normal x: "<<MRO.surfaces[6].normal[0]<<endl;
+    // cout<<"normal y: "<<MRO.surfaces[6].normal[1]<<endl;
+    // cout<<"normal z: "<<MRO.surfaces[6].normal[2]<<endl;
+
+    
+    // Eigen::Vector3d C_op = -reduced_area*(-v*(ca_op + cd_op) + (2.0/3.0)*n*cd_op + 2*cos_theta_i*cs_op*n);
+    // Eigen::Vector3d C_ir = -reduced_area*(-v*(ca_ir + cd_ir) + (2.0/3.0)*n*cd_op + 2*cos_theta_i*cs_ir*n);
+
+
+
+
     // vector<vector<double>> coefficients(Rs.size(), vector<double>(6, 0));
     // for (int i = 0; i<Rs.size(); i++) {
     //     cout<<"Iteration: "<<i+1<<endl;
@@ -136,7 +229,7 @@ int main(){
             coefficients.push_back(line);
         }
     }
-    save_data(coefficients, "../output/lowfidelity/c_v3.txt");
+    save_data(coefficients, "../output/c_2.txt");
     /*
     TESTING PIP ALGORITHMS
     */
