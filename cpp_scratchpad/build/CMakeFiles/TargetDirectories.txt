@@ -1,3 +1,0 @@
-C:/Users/nike/Documents/ThesisProject/cpp_scratchpad/build/CMakeFiles/scratchpad.dir
-C:/Users/nike/Documents/ThesisProject/cpp_scratchpad/build/CMakeFiles/edit_cache.dir
-C:/Users/nike/Documents/ThesisProject/cpp_scratchpad/build/CMakeFiles/rebuild_cache.dir

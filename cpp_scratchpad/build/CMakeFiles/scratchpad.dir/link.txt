@@ -1,3 +1,0 @@
-C:\Users\nike\Documents\softwares\cmake-3.30.2-windows-x86_64\bin\cmake.exe -E rm -f CMakeFiles\scratchpad.dir/objects.a
-C:\msys64\ucrt64\bin\ar.exe qc CMakeFiles\scratchpad.dir/objects.a @CMakeFiles\scratchpad.dir\objects1.rsp
-C:\msys64\ucrt64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\scratchpad.dir/objects.a -Wl,--no-whole-archive -o scratchpad.exe -Wl,--out-implib,libscratchpad.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\scratchpad.dir\linkLibs.rsp
