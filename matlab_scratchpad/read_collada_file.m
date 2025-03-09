@@ -5,13 +5,6 @@ fid = fopen(filename);
 s = fscanf(fid,'%c');
 fclose(fid);
 
-
-% <library_materials>
-%   <material id="_Solar_Array__RTV_Adhesive_and_Solar_Cell_-material" name=" Solar Array (RTV Adhesive and Solar Cell)">
-%     <instance_effect url="#_Solar_Array__RTV_Adhesive_and_Solar_Cell_-effect"/>
-%   </material>
-% </library_materials>
-
 % search for the text segment that contains the materials
 tag = '<library_materials>';
 na = strfind(s,tag);
@@ -47,44 +40,6 @@ for n = 1:length(ind)
     kb = ka - 2 + find(st(ka:end)=='"',1,'first');
     M.materials(n).name = st(ka:kb);
 end
-
-
-% <library_geometries>
-%   <geometry id="Swarm_CAD-mesh" name="Swarm CAD">
-%     <mesh>
-%       <source id="Swarm_CAD-mesh-positions">
-%         <float_array id="Swarm_CAD-mesh-positions-array" count="6072">-160 .........
-%         </float_array>
-%         <technique_common>
-%           <accessor source="#Swarm_CAD-mesh-positions-array" count="2024" stride="3">
-%             <param name="X" type="float"/>
-%             <param name="Y" type="float"/>
-%             <param name="Z" type="float"/>
-%           </accessor>
-%         </technique_common>
-%       </source>
-%       <source id="Swarm_CAD-mesh-normals">
-%         <float_array id="Swarm_CAD-mesh-normals-array" count="6297">0 -0.587786.......</float_array>
-%         <technique_common>
-%           <accessor source="#Swarm_CAD-mesh-normals-array" count="2099" stride="3">
-%             <param name="X" type="float"/>
-%             <param name="Y" type="float"/>
-%             <param name="Z" type="float"/>
-%           </accessor>
-%         </technique_common>
-%     </source>
-%       <vertices id="Swarm_CAD-mesh-vertices">
-%         <input semantic="POSITION" source="#Swarm_CAD-mesh-positions"/>
-%       </vertices>
-%       <triangles material="_Solar_Array__RTV_Adhesive_and_Solar_Cell_-material" count="86">
-%         <input semantic="VERTEX" source="#Swarm_CAD-mesh-vertices" offset="0"/>
-%         <input semantic="NORMAL" source="#Swarm_CAD-mesh-normals" offset="1"/>
-%         <p>4 0 5 0 6....</p>
-%       </triangles>
-%     </mesh>
-%   </geometry>
-% </library_geometries>
-
 
 % search for the text segment that contains the materials
 tag = '<library_geometries>';
@@ -134,13 +89,6 @@ for n = 1:length(ind)
     end
 end
    
-
-%       <triangles material="_Solar_Array__RTV_Adhesive_and_Solar_Cell_-material" count="86">
-%         <input semantic="VERTEX" source="#Swarm_CAD-mesh-vertices" offset="0"/>
-%         <input semantic="NORMAL" source="#Swarm_CAD-mesh-normals" offset="1"/>
-%         <p>4 0 5 0 6....</p>
-%       </triangles>
-
 tag = '<triangles';
 ind = strfind(sg,tag);
 for n = 1:length(ind)

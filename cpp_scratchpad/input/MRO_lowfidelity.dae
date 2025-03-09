@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 4.3.2 commit date:2024-12-16, commit time:21:10, hash:32f5fdce0a0a</authoring_tool>
+    </contributor>
+    <created>2025-02-21T12:38:18</created>
+    <modified>2025-02-21T12:38:18</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_effects>
+    <effect id="SA_front-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <color sid="diffuse">0 0.01460144 0.80071 1</color>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.5</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="SA_back-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <color sid="diffuse">0 0.4385937 0.800275 1</color>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.5</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="HGA_front-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <color sid="diffuse">0.8 0.8 0.8 1</color>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.5</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="HGA_back-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <color sid="diffuse">0.09854242 0.09854242 0.09854242 1</color>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.5</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="INS-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <color sid="diffuse">0.8006458 0.01115508 0.002554188 1</color>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.5</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="BUS-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <color sid="diffuse">0.8002912 0.4129062 0.02630749 1</color>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.5</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_images/>
+  <library_materials>
+    <material id="SA_front-material" name="SA_front">
+      <instance_effect url="#SA_front-effect"/>
+    </material>
+    <material id="SA_back-material" name="SA_back">
+      <instance_effect url="#SA_back-effect"/>
+    </material>
+    <material id="HGA_front-material" name="HGA_front">
+      <instance_effect url="#HGA_front-effect"/>
+    </material>
+    <material id="HGA_back-material" name="HGA_back">
+      <instance_effect url="#HGA_back-effect"/>
+    </material>
+    <material id="INS-material" name="INS">
+      <instance_effect url="#INS-effect"/>
+    </material>
+    <material id="BUS-material" name="BUS">
+      <instance_effect url="#BUS-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="MRO_lowfidelity-mesh" name="MRO_lowfidelity">
+      <mesh>
+        <source id="MRO_lowfidelity-mesh-positions">
+          <float_array id="MRO_lowfidelity-mesh-positions-array" count="171">-259.3095 -85.43307 11.35755 -259.3095 -86.61418 11.35755 -95.78659 -86.61418 -32.45827 -95.78659 -85.43307 -32.45827 -234.3446 -86.61418 104.5276 -70.82176 -85.43307 60.71174 -45.27559 -85.43307 3.937005 -234.3446 -85.43307 104.5276 -45.27559 -86.61418 3.937005 -70.82176 -86.61418 60.71174 95.78659 -85.43307 -32.45827 95.78659 -86.61418 -32.45827 259.3095 -85.43307 11.35755 259.3095 -86.61418 11.35755 250.9878 -85.43307 42.41422 234.3446 -86.61418 104.5276 234.3446 -85.43307 104.5276 45.27559 -85.43307 3.937005 70.82176 -85.43307 60.71174 70.82176 -86.61418 60.71174 45.27559 -86.61418 3.937005 -36.41733 -86.61418 -51.1811 36.41733 0 -51.1811 36.41733 -86.61418 -51.1811 -36.41733 0 -51.1811 -53.1496 -86.61418 -31.29922 -53.1496 0 -31.29922 -29.52756 -86.61418 44.09449 -29.52756 0 44.09449 29.52756 -86.61418 44.09449 53.1496 -86.61418 -31.29922 53.1496 0 -31.29922 29.52756 0 44.09449 6.889767 -114.1732 -104.7244 4.871803 -114.1732 -99.85261 44.93587 -138.5827 -59.78854 63.54891 -138.5827 -104.7244 -5.07954e-6 -114.1732 -97.83465 -3.51725e-6 -138.5827 -41.17549 -4.871798 -114.1732 -99.85261 -44.93587 -138.5827 -59.78853 -1.29813e-5 -157.4803 -91.04909 9.669929 -157.4803 -95.05451 13.67531 -157.4803 -104.7244 4.871805 -114.1732 -109.5962 44.93587 -138.5827 -149.6603 9.669916 -157.4803 -114.3943 -8.49792e-6 -138.5827 -168.2733 -1.38142e-5 -114.1732 -111.6142 -6.889764 -114.1732 -104.7244 -4.871798 -114.1732 -109.5962 -63.54891 -138.5827 -104.7244 -9.669922 -157.4803 -95.0545 -44.93587 -138.5827 -149.6603 -13.67533 -157.4803 -104.7244 -9.669907 -157.4803 -114.3943 6.07604e-6 -157.4803 -118.3997</float_array>
+          <technique_common>
+            <accessor source="#MRO_lowfidelity-mesh-positions-array" count="57" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="MRO_lowfidelity-mesh-normals">
+          <float_array id="MRO_lowfidelity-mesh-normals-array" count="294">-0.2588191 -3.11969e-6 -0.9659258 -0.258819 -1.67184e-6 -0.9659258 -0.9659259 0 0.2588189 -0.9659259 8.35919e-7 0.2588189 0 1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 -1 0 0.258819 -4.88397e-6 0.9659258 0.2588191 0 0.9659258 0.9119364 -1.32527e-6 0.4103317 0.9119364 0 0.4103317 0.5845941 1.63773e-7 -0.8113259 0.5845941 3.77618e-6 -0.8113259 0.258819 0 -0.9659258 0.258819 0 -0.9659258 0.965926 0 0.2588186 0.9659259 -9.10762e-6 0.2588189 0.9659258 0 0.258819 0 1 0 0 1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 -1 0 -0.258819 0 0.9659258 -0.2588191 3.11969e-6 0.9659258 -0.9119364 1.32527e-6 0.4103317 -0.9119364 0 0.4103317 -0.5845941 -1.63773e-7 -0.8113259 -0.5845941 3.77618e-6 -0.8113259 0 0 -1 0 0 -1 -0.7651077 0 -0.6439024 -0.7651077 0 -0.6439023 -0.954258 0 0.2989842 -0.9542581 0 0.2989842 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0.9542581 0 0.2989842 0.9542581 0 0.2989842 0.7651077 0 -0.6439024 0.7651077 0 -0.6439024 0.3904482 0.9063079 0.1617289 0.3904483 0.9063078 0.1617286 0.1617289 0.9063079 0.3904483 0.1617284 0.9063079 0.3904483 -0.1617289 0.9063079 0.3904482 -0.1617289 0.9063079 0.3904482 0.1452115 -0.9252097 0.3505719 0.1452116 -0.9252097 0.3505719 0.350572 -0.9252097 0.1452116 0.3505719 -0.9252098 0.1452108 0.3904483 0.9063078 -0.1617289 0.3904483 0.9063079 -0.1617288 0.3505724 -0.9252096 -0.1452111 0.3505719 -0.9252097 -0.1452115 0.1617288 0.9063079 -0.3904482 0.1617288 0.9063079 -0.3904483 0 1 0 0 1 1.56603e-6 5.53676e-7 1 2.2934e-7 5.53676e-7 1 2.2934e-7 0 1 0 1.10735e-6 1 -1.10735e-6 -0.3904483 0.9063076 0.1617302 -0.3904483 0.9063079 0.1617289 -0.1452116 -0.9252097 0.3505718 -0.1452116 -0.9252097 0.3505719 -0.3904483 0.9063078 -0.1617289 -0.3904482 0.9063078 -0.161729 -0.350572 -0.9252096 0.1452116 -0.3505719 -0.9252097 0.1452115 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 -0.161729 0.9063077 -0.3904486 -0.161729 0.9063079 -0.3904483 -0.3505713 -0.9252099 -0.1452122 -0.350572 -0.9252095 -0.1452116 -0.1452119 -0.9252097 -0.3505715 -0.1452116 -0.9252097 -0.3505719 0.1452116 -0.9252097 -0.3505721 0.1452114 -0.9252096 -0.350572</float_array>
+          <technique_common>
+            <accessor source="#MRO_lowfidelity-mesh-normals-array" count="98" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="MRO_lowfidelity-mesh-vertices">
+          <input semantic="POSITION" source="#MRO_lowfidelity-mesh-positions"/>
+        </vertices>
+        <triangles material="SA_front-material" count="6">
+          <input semantic="VERTEX" source="#MRO_lowfidelity-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#MRO_lowfidelity-mesh-normals" offset="1"/>
+          <p>8 7 1 7 2 7 1 8 8 8 9 8 1 9 9 9 4 9 19 25 20 25 13 25 11 26 13 26 20 26 15 27 19 27 13 27</p>
+        </triangles>
+        <triangles material="SA_back-material" count="28">
+          <input semantic="VERTEX" source="#MRO_lowfidelity-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#MRO_lowfidelity-mesh-normals" offset="1"/>
+          <p>2 0 1 0 0 0 0 1 3 1 2 1 1 2 4 2 7 2 7 3 0 3 1 3 6 4 7 4 5 4 7 5 6 5 0 5 3 6 0 6 6 6 5 10 7 10 9 10 4 11 9 11 7 11 6 12 5 12 9 12 9 13 8 13 6 13 3 14 6 14 8 14 8 15 2 15 3 15 10 16 12 16 11 16 13 17 11 17 12 17 12 18 14 18 13 18 15 19 13 19 14 19 14 20 16 20 15 20 17 21 14 21 10 21 14 22 17 22 18 22 14 23 12 23 10 23 14 24 18 24 16 24 19 28 15 28 16 28 16 29 18 29 19 29 20 30 19 30 18 30 18 31 17 31 20 31 11 32 20 32 17 32 17 33 10 33 11 33</p>
+        </triangles>
+        <triangles material="HGA_front-material" count="22">
+          <input semantic="VERTEX" source="#MRO_lowfidelity-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#MRO_lowfidelity-mesh-normals" offset="1"/>
+          <p>42 60 38 60 41 60 42 61 35 61 38 61 36 62 35 62 42 62 43 63 36 63 42 63 46 66 45 66 43 66 36 67 43 67 45 67 41 78 40 78 52 78 38 79 40 79 41 79 40 82 51 82 54 82 52 83 40 83 54 83 54 84 55 84 56 84 54 85 42 85 41 85 56 86 46 86 54 86 54 87 43 87 42 87 41 88 52 88 54 88 46 89 43 89 54 89 53 92 55 92 54 92 54 93 51 93 53 93 55 94 53 94 56 94 53 95 47 95 56 95 47 96 45 96 46 96 56 97 47 97 46 97</p>
+        </triangles>
+        <triangles material="HGA_back-material" count="22">
+          <input semantic="VERTEX" source="#MRO_lowfidelity-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#MRO_lowfidelity-mesh-normals" offset="1"/>
+          <p>33 54 35 54 36 54 34 55 35 55 33 55 38 56 35 56 34 56 37 57 38 57 34 57 39 58 40 58 38 58 39 59 38 59 37 59 44 64 36 64 45 64 33 65 36 65 44 65 44 68 47 68 48 68 44 69 45 69 47 69 33 70 44 70 48 70 34 71 49 71 39 71 50 72 34 72 33 72 34 73 50 73 49 73 39 74 37 74 34 74 48 75 50 75 33 75 39 76 49 76 51 76 39 77 51 77 40 77 53 80 51 80 49 80 49 81 50 81 53 81 48 90 53 90 50 90 48 91 47 91 53 91</p>
+        </triangles>
+        <triangles material="INS-material" count="2">
+          <input semantic="VERTEX" source="#MRO_lowfidelity-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#MRO_lowfidelity-mesh-normals" offset="1"/>
+          <p>29 48 32 48 28 48 28 49 27 49 29 49</p>
+        </triangles>
+        <triangles material="BUS-material" count="18">
+          <input semantic="VERTEX" source="#MRO_lowfidelity-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#MRO_lowfidelity-mesh-normals" offset="1"/>
+          <p>21 34 22 34 23 34 22 35 21 35 24 35 25 36 26 36 24 36 24 37 21 37 25 37 26 38 25 38 27 38 26 39 27 39 28 39 27 40 25 40 21 40 29 41 21 41 30 41 30 42 21 42 23 42 27 43 21 43 29 43 28 44 22 44 26 44 28 45 32 45 31 45 26 46 22 46 24 46 31 47 22 47 28 47 30 50 31 50 32 50 32 51 29 51 30 51 31 52 30 52 23 52 23 53 22 53 31 53</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="MRO_lowfidelity" name="MRO_lowfidelity" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#MRO_lowfidelity-mesh" name="MRO_lowfidelity">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="SA_front-material" target="#SA_front-material"/>
+              <instance_material symbol="SA_back-material" target="#SA_back-material"/>
+              <instance_material symbol="HGA_front-material" target="#HGA_front-material"/>
+              <instance_material symbol="HGA_back-material" target="#HGA_back-material"/>
+              <instance_material symbol="INS-material" target="#INS-material"/>
+              <instance_material symbol="BUS-material" target="#BUS-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

@@ -238,8 +238,8 @@ void PIP_raycast_triangle_acc_shadowing(std::vector<std::vector<int>>& W, const 
             
     };
 
-surface::surface(triangle3D triangle_, Eigen::Vector3d normal_, properties prop_) : 
-    triangle(triangle_), normal(normal_), surface_properties(prop_),
+surface::surface(triangle3D triangle_, Eigen::Vector3d normal_, double ca_, double cd_, double cs_, std::string material_) : 
+    triangle(triangle_), normal(normal_), ca(ca_), cd(cd_), cs(cs_), material(material_),
      area(area_triangle3D(triangle_)) {
 
         // create the plane versors: l is one of the edges while m is the cross product between n and l

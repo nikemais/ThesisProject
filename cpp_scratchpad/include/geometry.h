@@ -52,17 +52,18 @@ struct surface {
     triangle3D triangle;
     Eigen::Vector3d normal;
     // surface properties
-    properties surface_properties;
+    double ca, cd, cs;
     double area;
+    std::string material;
     // plane definition
     Eigen::Vector3d l, m;
     std::vector<point2D> triangle_2d;
     double l_min, l_max, m_min, m_max;
 
-    surface(triangle3D triangle_, Eigen::Vector3d normal_, properties prop_);
+    surface(triangle3D triangle_, Eigen::Vector3d normal_, double ca_, double cd_, double cs_, std::string material_);
 
-    surface(const surface& s_): triangle(s_.triangle), normal(s_.normal), surface_properties(s_.surface_properties),
-    area(s_.area), l(s_.l), m(s_.m), triangle_2d(s_.triangle_2d), l_min(s_.l_min), l_max(s_.l_max), m_min(s_.m_min), m_max(s_.m_max) {};
+    // surface(const surface& s_): triangle(s_.triangle), normal(s_.normal), surface_properties(s_.surface_properties),
+    // area(s_.area), l(s_.l), m(s_.m), triangle_2d(s_.triangle_2d), l_min(s_.l_min), l_max(s_.l_max), m_min(s_.m_min), m_max(s_.m_max) {};
 };
 
 struct projection {

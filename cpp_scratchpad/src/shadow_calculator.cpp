@@ -4,14 +4,105 @@
 #include <math.h> 
 #include <thread>
 #include <eigen/Eigen/Dense>
+#include <filesystem>
+#include <sstream>
+#include <fstream>
+
+
+// default constructor, reads a collada file and extracts informations
+Part::Part(std::string path, std::vector<std::vector<double>> prop,
+    Eigen::Vector3d origin_,
+    Eigen::Matrix3d frame_) : origin(origin_), frame(frame_) {
+
+    // check if path leads to a collada file
+    if (std::filesystem::path(path).extension() != ".dae") {
+        throw std::runtime_error("File provided is not in COLLADA.dae format!");
+    }
+    // collada parsing
+    std::ifstream file(path);
+    std::stringstream buffer;
+    buffer << file.rdbuf(); 
+    std::string collada = buffer.str();
+    // library materials
+    std::string tag = "<library_materials>";
+    size_t start_materials = collada.find(tag) + tag.size();
+    size_t end_materials = collada.find("</library_materials>", start_materials)-1;
+    size_t pos = start_materials;
+    std::vector<std::string> materials;
+    tag = "name=\"";
+    while (pos<end_materials) {
+        size_t start_mat = collada.find(tag, pos);
+        if (start_mat == std::string::npos || start_mat >= end_materials) {
+            break;
+        }
+        start_mat += tag.size();
+        size_t end_mat = collada.find('"', start_mat);
+        if (end_mat == std::string::npos || end_mat > end_materials) {
+            break;
+        }
+        materials.push_back(collada.substr(start_mat, end_mat-start_mat));
+        std::cout<<collada.substr(start_mat, end_mat-start_mat)<<std::endl;
+        pos = end_mat + 1;
+    }
+    // library geometries
+    tag = "<library_geometries>";
+    size_t start_geometries = collada.find(tag) + tag.size();
+    // sub library: vertices coordinates
+    tag = "<source";
+    size_t start_source = collada.find(tag, start_geometries) + tag.size();
+    tag = "<float_array";
+    size_t start_float = collada.find(tag, start_source) + tag.size();
+    size_t start_array = collada.find(">", start_float) + 1;
+    size_t end_array = collada.find("<", start_array);
+    std::istringstream dummy1(collada.substr(start_array, end_array-start_array));
+    std::vector<Eigen::Vector3d> vertices;
+    double x1, y1, z1;
+    while (dummy1 >> x1 >> y1 >> z1) {
+        vertices.push_back(Eigen::Vector3d(x1, y1, z1));
+    }
+    // sub library: normals
+    tag = "<source";
+    start_source = collada.find(tag, end_array) + tag.size();
+    tag = "<float_array";
+    start_float = collada.find(tag, start_source) + tag.size();
+    start_array = collada.find(">", start_float) + 1;
+    end_array = collada.find("<", start_array);
+    std::istringstream dummy2(collada.substr(start_array, end_array-start_array));
+    std::vector<Eigen::Vector3d> normals;
+    double x2, y2, z2, c = 0;
+    while (dummy2 >> x2 >> y2 >> z2) {
+        normals.push_back(Eigen::Vector3d(x2, y2, z2));
+    }
+    pos = end_array;
+    // sub library: assign materials and create surfaces
+    tag = "<triangles";
+    for (size_t i = 0; i<materials.size(); i++) {
+        size_t start_triangle = collada.find(tag, pos) + tag.size();
+        std::string tag_triangle = "<p>";
+        size_t start_p = collada.find("<p>", start_triangle) + tag_triangle.size();
+        size_t end_p = collada.find("<", start_p);
+        std::istringstream dummy(collada.substr(start_p, end_p-start_p));
+        std::cout<<collada.substr(start_p, end_p-start_p)<<std::endl;
+        int x, y, z, n;
+        while (dummy >> x >> n >> y >> n >> z >> n) {
+            triangle3D triangle(vertices[x], vertices[y], vertices[z]);
+            surfaces.emplace_back(triangle, normals[n], prop[c][0], prop[c][1], prop[c][2], materials[c]);
+        }
+        pos = end_p;
+        c++;
+    }
+    surfaces_number = surfaces.size();
+    
+}
+
 
 // default constructor
-Part::Part(const std::string& path) {
+Part_v1::Part_v1(const std::string& path) {
     surfaces = _load_surfaces(path);
     surfaces_number = surfaces.size();
 }
 // copy rotation constructor
-Part::Part(const Part& original, const Eigen::Matrix3d& R) : surfaces(original.surfaces),
+Part_v1::Part_v1(const Part_v1& original, const Eigen::Matrix3d& R) : surfaces(original.surfaces),
     surfaces_number(original.surfaces_number) {
 
     for (auto& surf : surfaces) {
@@ -25,8 +116,8 @@ Part::Part(const Part& original, const Eigen::Matrix3d& R) : surfaces(original.s
 };
 
 
-std::vector<properties> Part::_load_properties(const std::string& path) {
-    std::vector<properties> prop;
+std::vector<std::vector<double>> Part_v1::_load_properties(const std::string& path) {
+    std::vector<std::vector<double>> prop;
 
     // Load data
     std::vector<std::vector<double>> id = load_data(path + "id.txt");
@@ -54,8 +145,7 @@ std::vector<properties> Part::_load_properties(const std::string& path) {
 
     for (size_t i = 0; i < numSurfaces; i++) {
 
-        prop.emplace_back(id[0][i], pa_infrared[0][i], pd_infrared[0][i], ps_infrared[0][i],
-                          pa_optical[0][i], pd_optical[0][i], ps_optical[0][i]);  
+        prop.push_back({pa_infrared[0][i], pd_infrared[0][i], ps_infrared[0][i]});  
     }
 
     return prop;  
@@ -63,9 +153,9 @@ std::vector<properties> Part::_load_properties(const std::string& path) {
 }
 
 
-std::vector<surface> Part::_load_surfaces(const std::string& path) {
+std::vector<surface> Part_v1::_load_surfaces(const std::string& path) {
 
-    std::vector<properties> surface_properties = _load_properties(path);
+    std::vector<std::vector<double>> surface_properties = _load_properties(path);
 
     std::vector<surface> surfaces;
 
@@ -107,19 +197,19 @@ std::vector<surface> Part::_load_surfaces(const std::string& path) {
 
         // Create triangle and surface
         triangle3D triangle(p0, p1, p2);
-        surfaces.emplace_back(triangle, normal, surface_properties[i]);  // Add surface to vector
+        surfaces.emplace_back(triangle, normal, surface_properties[i][0], surface_properties[i][1], surface_properties[i][2], "test");  // Add surface to vector
     }
     
     return surfaces;  // Return the vector of surfaces
 }
 
-void Part::print_info() {
+void Part_v1::print_info() {
     std::cout<<"-- PART INFO -----------------------------"<<std::endl;
     std::cout<<"Number of panels: "<<surfaces_number<<std::endl;
     std::cout<<"------------------------------------------"<<std::endl;
 }
 
-void Part::print_suface_data(int id_number) {
+void Part_v1::print_suface_data(int id_number) {
     std::cout<<"-- SURFACE INFO --------------------------"<<std::endl;
     std::cout<<"ID: "<<id_number<<std::endl;
     std::cout<<"Area: "<<surfaces[id_number-1].area<<" m^2"<<std::endl;
@@ -131,12 +221,9 @@ void Part::print_suface_data(int id_number) {
              <<","<<surfaces[id_number-1].triangle.c(2)<<"] m"<<std::endl;
     std::cout<<"n = ["<<surfaces[id_number-1].normal[0]<<","<<surfaces[id_number-1].normal[1]
              <<","<<surfaces[id_number-1].normal[2]<<"] "<<std::endl;
-    std::cout<<"Optical absorptivity: "<<surfaces[id_number-1].surface_properties.optical[0]<<std::endl;
-    std::cout<<"Optical diffuse reflectivity: "<<surfaces[id_number-1].surface_properties.optical[1]<<std::endl;
-    std::cout<<"Optical specular reflectivity: "<<surfaces[id_number-1].surface_properties.optical[2]<<std::endl;
-    std::cout<<"Infrared absorptivity: "<<surfaces[id_number-1].surface_properties.infrared[0]<<std::endl;
-    std::cout<<"Infrared diffuse reflectivity: "<<surfaces[id_number-1].surface_properties.infrared[1]<<std::endl;
-    std::cout<<"Infrared specular reflectivity: "<<surfaces[id_number-1].surface_properties.infrared[2]<<std::endl;
+    std::cout<<"Optical absorptivity: "<<surfaces[id_number-1].ca<<std::endl;
+    std::cout<<"Optical diffuse reflectivity: "<<surfaces[id_number-1].cd<<std::endl;
+    std::cout<<"Optical specular reflectivity: "<<surfaces[id_number-1].cs<<std::endl;
     std::cout<<"------------------------------------------"<<std::endl;
     
 }
@@ -175,9 +262,9 @@ std::vector<std::vector<double>> second_discrimination(const surface& panel_shad
     }
 }
 
-std::vector<double> compute_shadow(const Part& part, const Eigen::Matrix3d& R, const Eigen::Vector3d& v, const int& q_max, bool multi_thread) {
+std::vector<double> compute_shadow(const Part_v1& part, const Eigen::Matrix3d& R, const Eigen::Vector3d& v, const int& q_max, bool multi_thread) {
     // copy part and rotate all surfaces
-    Part part_rotated(part, R);
+    Part_v1 part_rotated(part, R);
 
     int n = part.surfaces_number;
     std::vector<std::vector<int>> sigma(n, std::vector<int>(n, -2)); // -2 dummy value, -1 no-sh, 0 partial sh, 1 full sh
@@ -339,7 +426,7 @@ std::vector<double> compute_shadow(const Part& part, const Eigen::Matrix3d& R, c
     
 };
 
-std::vector<double> pixelation(const std::vector<std::vector<int>>& sigma, const Part& part, const int& q_max, 
+std::vector<double> pixelation(const std::vector<std::vector<int>>& sigma, const Part_v1& part, const int& q_max, 
     const std::vector<std::vector<projection>>& projections, const std::vector<int>& indexes) {
         std::vector<double> f(indexes.size(), 1.0);
         for (int ii=0; ii<indexes.size(); ii++) { 
@@ -407,22 +494,19 @@ std::vector<double> pixelation(const std::vector<std::vector<int>>& sigma, const
         
     };
 
-std::vector<double> rp_coefficients(const Part& part, const Eigen::Matrix3d& R,
+std::vector<double> rp_coefficients(const Part_v1& part, const Eigen::Matrix3d& R,
      const std::vector<double>& fraction, const Eigen::Vector3d& v) {
 
-    Eigen::Vector3d C_op(0.0,0.0,0.0);
-    Eigen::Vector3d C_ir(0.0,0.0,0.0);
-    Part part_rotated(part, R);
+    Eigen::Vector3d C(0.0,0.0,0.0);
+    Part_v1 part_rotated(part, R);
     Eigen::Vector3d r = v;
     
     for (int i = 0; i<part_rotated.surfaces_number; i++) {
             // vectorial components
-            double ca_op = part_rotated.surfaces[i].surface_properties.optical[0];
-            double cd_op = part_rotated.surfaces[i].surface_properties.optical[1];
-            double cs_op = part_rotated.surfaces[i].surface_properties.optical[2];
-            double ca_ir = part_rotated.surfaces[i].surface_properties.infrared[0];
-            double cd_ir = part_rotated.surfaces[i].surface_properties.infrared[1];
-            double cs_ir = part_rotated.surfaces[i].surface_properties.infrared[2];
+            double ca = part_rotated.surfaces[i].ca;
+            double cd = part_rotated.surfaces[i].cd;
+            double cs = part_rotated.surfaces[i].cs;
+
             Eigen::Vector3d n = part_rotated.surfaces[i].normal;
             
             double cos_theta_i = r.dot(n);
@@ -433,23 +517,20 @@ std::vector<double> rp_coefficients(const Part& part, const Eigen::Matrix3d& R,
             // C_op += -reduced_area*((ca_op + cd_op)*dummy+2*cos_theta_i*cs_op*n);
             // C_ir += -reduced_area*((ca_ir + cd_ir)*dummy+2*cos_theta_i*cs_ir*n);
             // no remission
-            C_op += -reduced_area*(-r*(ca_op + cd_op) + (2.0/3.0)*n*cd_op + 2*cos_theta_i*cs_op*n);
-            C_ir += -reduced_area*(-r*(ca_ir + cd_ir) + (2.0/3.0)*n*cd_op + 2*cos_theta_i*cs_ir*n);
+            C += -reduced_area*(-r*(ca + cd) + (2.0/3.0)*n*cd + 2*cos_theta_i*cs*n);
+            
 
         }
         
         
-        return {C_op(0), C_op(1), C_op(2), C_ir(0), C_ir(1), C_ir(2)};
+        return {C(0), C(1), C(2)};
 };
 
 std::vector<double> rp_coefficients_surface(const surface& surf, const double& fraction, const Eigen::Vector3d& v) {
 
-    double ca_op = surf.surface_properties.optical[0];
-    double cd_op = surf.surface_properties.optical[1];
-    double cs_op = surf.surface_properties.optical[2];
-    double ca_ir = surf.surface_properties.infrared[0];
-    double cd_ir = surf.surface_properties.infrared[1];
-    double cs_ir = surf.surface_properties.infrared[2];
+    double ca = surf.ca;
+    double cd = surf.cd;
+    double cs = surf.cs;
     Eigen::Vector3d n = surf.normal;
             
     double cos_theta_i = v.dot(n);
@@ -460,9 +541,9 @@ std::vector<double> rp_coefficients_surface(const surface& surf, const double& f
     // C_op += -reduced_area*((ca_op + cd_op)*dummy+2*cos_theta_i*cs_op*n);
     // C_ir += -reduced_area*((ca_ir + cd_ir)*dummy+2*cos_theta_i*cs_ir*n);
     // no remission
-    Eigen::Vector3d C_op = -reduced_area*(-v*(ca_op + cd_op) + (2.0/3.0)*n*cd_op + 2*cos_theta_i*cs_op*n);
-    Eigen::Vector3d C_ir = -reduced_area*(-v*(ca_ir + cd_ir) + (2.0/3.0)*n*cd_op + 2*cos_theta_i*cs_ir*n);
-    return {C_op(0), C_op(1), C_op(2), C_ir(0), C_ir(1), C_ir(2)};
+    Eigen::Vector3d C = -reduced_area*(-v*(ca + cd) + (2.0/3.0)*n*cd + 2*cos_theta_i*cs*n);
+
+    return {C(0), C(1), C(2)};
 };
 
 

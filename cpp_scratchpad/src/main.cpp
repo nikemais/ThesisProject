@@ -17,7 +17,7 @@ using namespace std;
 int main(){
     string data_path = "../data/MRO_lowfidelity_";
 
-    Part MRO(data_path);
+    Part_v1 MRO(data_path);
     int q_max = 100;
 
     // MRO.print_info();
@@ -39,9 +39,24 @@ int main(){
     
     Eigen::Vector3d v(-1.0, 0.0, 0.0);
 
+    string path_test = "C:/Users/nike/Documents/ThesisProject/cpp_scratchpad/input/MRO_lowfidelity.dae";
+    vector<vector<double>> materials(6);
+    materials[0] = {0.9, 0.07, 0.03};
+    materials[1] = {0.9, 0.07, 0.03};
+    materials[2] = {0.14, 0.80, 0.06};
+    materials[3] = {0.14, 0.80, 0.06};
+    materials[4] = {0.14, 0.80, 0.06};
+    materials[5] = {0.9, 0.05, 0.05};
     
+    Part MRO_test(path_test, materials);
+    Assembly MRO_test_assembly(MRO_test, MRO_test);
+    Part assembled_MRO = MRO_test_assembly.combine_parts(R_unity, R_unity);
+    cout<<assembled_MRO.surfaces[0].l<<endl;
+    cout<<assembled_MRO.surfaces[98].l<<endl;
 
-    // Part MRO_rotated(MRO, R);
+
+
+    // Part_v1 MRO_rotated(MRO, R);
     // MRO_rotated.print_info();
     // MRO_rotated.print_suface_data(1);
 
@@ -77,34 +92,34 @@ int main(){
     /*
     VERIFICATION
     */
-    double pi = M_PI;
-    // vector<double> alpha_angles = {-pi/2, 0, pi/2};
-    vector<double> alpha_angles;
-    double val1 = -pi/2;
-    while (val1<= pi/2) {
-        alpha_angles.push_back(val1);
-        val1 += pi/36; 
-    }
-    // vector<double> beta_angles = {-pi, -pi/2, 0, pi/2, pi};
-    vector<double> beta_angles;
-    double val2 = -pi;
-    while (val2<= pi) {
-        beta_angles.push_back(val2);
-        val2 += pi/36; 
-    }
+    // double pi = M_PI;
+    // // vector<double> alpha_angles = {-pi/2, 0, pi/2};
+    // vector<double> alpha_angles;
+    // double val1 = -pi/2;
+    // while (val1<= pi/2) {
+    //     alpha_angles.push_back(val1);
+    //     val1 += pi/36; 
+    // }
+    // // vector<double> beta_angles = {-pi, -pi/2, 0, pi/2, pi};
+    // vector<double> beta_angles;
+    // double val2 = -pi;
+    // while (val2<= pi) {
+    //     beta_angles.push_back(val2);
+    //     val2 += pi/36; 
+    // }
     
-    cout<<"size alpha: "<<alpha_angles.size()<<endl;
-    cout<<"size beta: "<<beta_angles.size()<<endl;
-    cout<<"total: "<<beta_angles.size()*alpha_angles.size()<<endl;
-    vector<Eigen::Matrix3d> Rs(alpha_angles.size()*beta_angles.size(), Eigen::Matrix3d(3, 3));
-    vector<vector<double>> angles(alpha_angles.size()*beta_angles.size(), vector<double>(2));
-    for (int i = 0; i<alpha_angles.size(); i++) {
-        for (int j = 0; j<beta_angles.size(); j++) {
-            angles[i*beta_angles.size()+j] = {alpha_angles[i], beta_angles[j]};
-            Rs[i*beta_angles.size()+j] = R_body_wind(alpha_angles[i], beta_angles[j]);
-        }
-    }
-    save_data(angles, "../output/a_2.txt");
+    // cout<<"size alpha: "<<alpha_angles.size()<<endl;
+    // cout<<"size beta: "<<beta_angles.size()<<endl;
+    // cout<<"total: "<<beta_angles.size()*alpha_angles.size()<<endl;
+    // vector<Eigen::Matrix3d> Rs(alpha_angles.size()*beta_angles.size(), Eigen::Matrix3d(3, 3));
+    // vector<vector<double>> angles(alpha_angles.size()*beta_angles.size(), vector<double>(2));
+    // for (int i = 0; i<alpha_angles.size(); i++) {
+    //     for (int j = 0; j<beta_angles.size(); j++) {
+    //         angles[i*beta_angles.size()+j] = {alpha_angles[i], beta_angles[j]};
+    //         Rs[i*beta_angles.size()+j] = R_body_wind(alpha_angles[i], beta_angles[j]);
+    //     }
+    // }
+    // save_data(angles, "../output/a_2.txt");
     // cout<<"angles"<<endl;
     // cout<<angles[5292][0]<<"  "<<angles[5292][1]<<endl;
     // cout<<"rs[5292]"<<endl;
@@ -142,7 +157,7 @@ int main(){
     // cout<<R_buggata*v_test<<endl;
 
 
-    // Part MRO_rotated(MRO, Rs[5293]);
+    // Part_v1 MRO_rotated(MRO, Rs[5293]);
     // cout<<"FRACTIONS"<<endl;
     // cout<<f_test_unity.size()<<"  "<<f_test.size()<<endl;
     // for (int i = 0; i<f_test_unity.size(); i++) {
@@ -191,45 +206,45 @@ int main(){
     // save_data(coefficients, "../output/lowfidelity/c_v1.txt");
 
     // multi thread
-    int n_threads = thread::hardware_concurrency()-1;
-    vector<thread> threads;
-    vector<vector<vector<double>>> results(n_threads);
-    int chunk = static_cast<int>(round(Rs.size()/n_threads));
-    cout<<"cores: "<<n_threads<<endl;
+    // int n_threads = thread::hardware_concurrency()-1;
+    // vector<thread> threads;
+    // vector<vector<vector<double>>> results(n_threads);
+    // int chunk = static_cast<int>(round(Rs.size()/n_threads));
+    // cout<<"cores: "<<n_threads<<endl;
 
-    for (int i = 0; i < n_threads; i++) {
-        // Launch thread
-        threads.emplace_back([&, i]() {
+    // for (int i = 0; i < n_threads; i++) {
+    //     // Launch thread
+    //     threads.emplace_back([&, i]() {
             
-            int i_max;
-            if (i==n_threads-1) {
-               i_max = Rs.size(); 
-            }
-            else {
-                i_max = min((i+1)*chunk, static_cast<int>(Rs.size()));
-            }
-            cout<<"starting thread: "<<i+1<<endl;
-            cout<<"from: "<<i*chunk<<" to: "<<i_max<<endl;
-            vector<vector<double>> partial_results(i_max-i*chunk);
-            for (int j = i*chunk; j<i_max; j++) {
-                vector<double> f = compute_shadow(MRO, Rs[j], v, q_max, false);
-                partial_results[j-i*chunk] = rp_coefficients(MRO, Rs[j], f, v);
-            }
-            results[i] = partial_results;
-        });
-    }
+    //         int i_max;
+    //         if (i==n_threads-1) {
+    //            i_max = Rs.size(); 
+    //         }
+    //         else {
+    //             i_max = min((i+1)*chunk, static_cast<int>(Rs.size()));
+    //         }
+    //         cout<<"starting thread: "<<i+1<<endl;
+    //         cout<<"from: "<<i*chunk<<" to: "<<i_max<<endl;
+    //         vector<vector<double>> partial_results(i_max-i*chunk);
+    //         for (int j = i*chunk; j<i_max; j++) {
+    //             vector<double> f = compute_shadow(MRO, Rs[j], v, q_max, false);
+    //             partial_results[j-i*chunk] = rp_coefficients(MRO, Rs[j], f, v);
+    //         }
+    //         results[i] = partial_results;
+    //     });
+    // }
     
-    // Join all threads
-    for (auto& th : threads) {
-        th.join();
-    }
-    vector<vector<double>> coefficients;
-    for (auto& thread_results : results) {
-        for (auto& line : thread_results) {
-            coefficients.push_back(line);
-        }
-    }
-    save_data(coefficients, "../output/c_2.txt");
+    // // Join all threads
+    // for (auto& th : threads) {
+    //     th.join();
+    // }
+    // vector<vector<double>> coefficients;
+    // for (auto& thread_results : results) {
+    //     for (auto& line : thread_results) {
+    //         coefficients.push_back(line);
+    //     }
+    // }
+    // save_data(coefficients, "../output/c_3.txt");
     /*
     TESTING PIP ALGORITHMS
     */

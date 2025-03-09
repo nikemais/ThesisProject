@@ -3,10 +3,10 @@ clear variables
 clc
 
 
-pth = 'C:/Users/nike/Documents/ThesisProject/matlab_scratchpad/symmetry_test/';
-fn = 'test_2';
-% pth = 'C:/Users/nike/Documents/ThesisProject/matlab_scratchpad/MRO_lowfidelity/';
-% fn = 'MRO_lowfidelity';
+% pth = 'C:/Users/nike/Documents/ThesisProject/matlab_scratchpad/symmetry_test/';
+% fn = 'test_2';
+pth = 'C:/Users/nike/Documents/ThesisProject/matlab_scratchpad/MRO_lowfidelity/';
+fn = 'MRO_lowfidelity';
 M = read_collada_file([pth fn '.dae']);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
